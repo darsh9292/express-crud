@@ -25,55 +25,55 @@ app.use(
     })
   );
 
-let teaData = []
+let userData = []
 let nextId = 1
 
-// add a new tea
-app.post('/teas', (req, res) => {
+// add a new user
+app.post('/users', (req, res) => {
   const {name, price} = req.body
-  const newTea = {id: nextId++, name, price}
-  teaData.push(newTea)
-  res.status(201).send(newTea)
+  const newuser = {id: nextId++, name, price}
+  userData.push(newuser)
+  res.status(201).send(newuser)
 })
 
-// get all tea
-app.get('/teas', (req, res) => {
-  res.status(200).send(teaData)
+// get all user
+app.get('/users', (req, res) => {
+  res.status(200).send(userData)
 })
 
-//get a tea with id
-app.get('/teas/:id', (req, res) => {
-  const tea = teaData.find(t => t.id === parseInt(req.params.id))
-  if (!tea) {
-    return res.status(404).send('Tea not found')
+//get a user with id
+app.get('/users/:id', (req, res) => {
+  const user = userData.find(t => t.id === parseInt(req.params.id))
+  if (!user) {
+    return res.status(404).send('user not found')
   }
-  res.status(200).send(tea)
+  res.status(200).send(user)
 })
 
-//update tea
+//update user
 
-app.put('/teas/:id', (req, res) => {
-  const tea = teaData.find(t => t.id === parseInt(req.params.id))
+app.put('/users/:id', (req, res) => {
+  const user = userData.find(t => t.id === parseInt(req.params.id))
 
-  if (!tea) {
-    return res.status(404).send('Tea not found')
+  if (!user) {
+    return res.status(404).send('user not found')
   }
   const {name, price} = req.body
-  tea.name = name
-  tea.price = price
-  res.send(200).send(tea)
+  user.name = name
+  user.price = price
+  res.send(200).send(user)
 })
 
-//delete tea
+//delete user
 
-app.delete('/teas/:id', (req, res) => {
-  const index = teaData.findIndex(t => t.id === parseInt(req.params.id))
+app.delete('/users/:id', (req, res) => {
+  const index = userData.findIndex(t => t.id === parseInt(req.params.id))
   if (index === -1) {
-    return res.status(404).send('tea not found')
+    return res.status(404).send('user not found')
   }
 
-  logger.info(`Deleting teas id ${index}`)
-  teaData.splice(index, 1)
+  logger.info(`Deleting users id ${index}`)
+  userData.splice(index, 1)
   res.status(200).send('deleted')
 })
 
