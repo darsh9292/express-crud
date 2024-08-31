@@ -1,11 +1,16 @@
-import 'dotenv/config'
 import express from 'express'
+import cors from "cors"
 import logger from './logger.js'
 import morgan from 'morgan'
 
 const app = express()
-const port = process.env.PORT || 3000
-app.use(express.json())
+
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}))
+
+app.use(express.json({limit: "16kb"}))
 
 const morganFormat = ":method :url :status :response-time ms";
 
@@ -77,7 +82,4 @@ app.delete('/users/:id', (req, res) => {
   res.status(200).send('deleted')
 })
 
-
-app.listen(port, () => {
-  console.log(`Server is running at port: ${port}...`)
-})
+export { app }
