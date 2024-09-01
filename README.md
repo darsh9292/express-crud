@@ -1,1 +1,1 @@
-Basic CRUD with express with in memory array
+Express JS CRUD with authentication and file storage on Cloudinary
