@@ -2,6 +2,7 @@ import express from 'express'
 import cors from "cors"
 import logger from './logger.js'
 import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 
@@ -13,12 +14,15 @@ app.use(cors({
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
+app.use(cookieParser())
 
 //routes import
 import healthcheckRouter from "./routes/healthcheck.routes.js"
+import userRouter from './routes/user.routes.js'
 
 //routes declaration
 app.use("/api/v1/healthcheck", healthcheckRouter)
+app.use("/api/v1/users", userRouter)
 
 const morganFormat = ":method :url :status :response-time ms";
 
@@ -38,56 +42,56 @@ app.use(
     })
   );
 
-let userData = []
-let nextId = 1
+// let userData = []
+// let nextId = 1
 
-// add a new user
-app.post('/users', (req, res) => {
-  const {name, price} = req.body
-  const newuser = {id: nextId++, name, price}
-  userData.push(newuser)
-  res.status(201).send(newuser)
-})
+// // add a new user
+// app.post('/users', (req, res) => {
+//   const {name, price} = req.body
+//   const newuser = {id: nextId++, name, price}
+//   userData.push(newuser)
+//   res.status(201).send(newuser)
+// })
 
-// get all user
-app.get('/users', (req, res) => {
-  res.status(200).send(userData)
-})
+// // get all user
+// app.get('/users', (req, res) => {
+//   res.status(200).send(userData)
+// })
 
-//get a user with id
-app.get('/users/:id', (req, res) => {
-  const user = userData.find(t => t.id === parseInt(req.params.id))
-  if (!user) {
-    return res.status(404).send('user not found')
-  }
-  res.status(200).send(user)
-})
+// //get a user with id
+// app.get('/users/:id', (req, res) => {
+//   const user = userData.find(t => t.id === parseInt(req.params.id))
+//   if (!user) {
+//     return res.status(404).send('user not found')
+//   }
+//   res.status(200).send(user)
+// })
 
-//update user
+// //update user
 
-app.put('/users/:id', (req, res) => {
-  const user = userData.find(t => t.id === parseInt(req.params.id))
+// app.put('/users/:id', (req, res) => {
+//   const user = userData.find(t => t.id === parseInt(req.params.id))
 
-  if (!user) {
-    return res.status(404).send('user not found')
-  }
-  const {name, price} = req.body
-  user.name = name
-  user.price = price
-  res.send(200).send(user)
-})
+//   if (!user) {
+//     return res.status(404).send('user not found')
+//   }
+//   const {name, price} = req.body
+//   user.name = name
+//   user.price = price
+//   res.send(200).send(user)
+// })
 
-//delete user
+// //delete user
 
-app.delete('/users/:id', (req, res) => {
-  const index = userData.findIndex(t => t.id === parseInt(req.params.id))
-  if (index === -1) {
-    return res.status(404).send('user not found')
-  }
+// app.delete('/users/:id', (req, res) => {
+//   const index = userData.findIndex(t => t.id === parseInt(req.params.id))
+//   if (index === -1) {
+//     return res.status(404).send('user not found')
+//   }
 
-  logger.info(`Deleting users id ${index}`)
-  userData.splice(index, 1)
-  res.status(200).send('deleted')
-})
+//   logger.info(`Deleting users id ${index}`)
+//   userData.splice(index, 1)
+//   res.status(200).send('deleted')
+// })
 
 export { app }
