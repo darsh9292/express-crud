@@ -61,7 +61,7 @@ npm run dev
 This will start the server at http://localhost:3000. Hit http://localhost:3000/api/v1/healthcheck to check whether everything is running properly or not.
 
 ## Usage
-Once the server is running, you can use the API endpoints to manage restaurants:
+Once the server is running, you can use the API endpoints to manage employees:
 
 Use tools like Postman or curl to interact with the API endpoints.
-Integrate the API with a frontend application for a complete restaurant management solution.
+Integrate the API with a frontend application for a complete employee management solution.
